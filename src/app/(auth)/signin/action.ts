@@ -15,12 +15,8 @@ export async function signIn(
   prevState: UserFormState,
   formData: FormData,
 ): Promise<UserFormState> {
-  "use server";
   const email = formData.get("email") as string;
   const password = formData.get("password") as string;
-
-  console.log("email: ", email);
-  console.log("pass: ", password);
 
   const { success, data, error } = userSchema.safeParse({ email, password });
 

@@ -25,17 +25,21 @@ export const sessionsRelations = relations(sessions, ({ one }) => ({
   }),
 }));
 
+// habits table and relations
 export const habits = sqliteTable("habit", {
   id: int("id").primaryKey({ autoIncrement: true }),
   name: text("name").notNull(),
   description: text("description"),
+  frequencyDays: int("frequency_days").notNull(),
   createdAt: int("created_at", { mode: "timestamp" })
     .default(sql`(unixepoch())`)
     .notNull(),
   updatedAt: int("updated_at", { mode: "timestamp" }).$onUpdate(
     () => new Date(),
   ),
-  userId: text("user_id").notNull(),
+  userId: text("user_id")
+    .notNull()
+    .references(() => users.id),
 });
 
 export const habitsRelations = relations(habits, ({ one, many }) => ({
@@ -43,25 +47,31 @@ export const habitsRelations = relations(habits, ({ one, many }) => ({
     fields: [habits.userId],
     references: [users.id],
   }),
-  habitRecords: many(habitRecords),
+  habitRecords: many(habitLogs),
 }));
 
 export type HabitType = typeof habits.$inferSelect;
 export type InsertHabit = typeof habits.$inferInsert;
 
-export const habitRecords = sqliteTable("habit_records", {
+// habit logs table and relations
+export const habitLogs = sqliteTable("habit_log", {
   id: int("id").primaryKey({ autoIncrement: true }),
-  habitId: int("habit_id").notNull(),
-  date: int("date", { mode: "timestamp" }).notNull(),
-  completed: int("completed", { mode: "boolean" }).notNull().default(false),
+  habitId: int("habit_id")
+    .notNull()
+    .references(() => habits.id),
+  logDate: int("log_date", { mode: "timestamp" }).notNull(),
+  status: int("status", { mode: "boolean" }).notNull(),
+  createdAt: int("created_at", { mode: "timestamp" })
+    .default(sql`(unixepoch())`)
+    .notNull(),
 });
 
-export const habitRecordsRelations = relations(habitRecords, ({ one }) => ({
+export const habitLogsRelations = relations(habitLogs, ({ one }) => ({
   habits: one(habits, {
-    fields: [habitRecords.habitId],
+    fields: [habitLogs.habitId],
     references: [habits.id],
   }),
 }));
 
-export type HabitRecordType = typeof habitRecords.$inferSelect;
-export type InsertHabitRecord = typeof habitRecords.$inferInsert;
+export type HabitRecordType = typeof habitLogs.$inferSelect;
+export type InsertHabitRecord = typeof habitLogs.$inferInsert;

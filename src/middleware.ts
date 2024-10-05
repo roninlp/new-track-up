@@ -2,8 +2,16 @@
 import { verifyRequestOrigin } from "lucia";
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
+import { getUserAndSession } from "./server/auth/lucia";
 
+const protectedRoutes = ["/habits"];
 export async function middleware(request: NextRequest): Promise<NextResponse> {
+  const { user } = await getUserAndSession();
+
+  if (!user && protectedRoutes.includes(request.nextUrl.pathname)) {
+    return NextResponse.redirect(new URL("/signin", request.url));
+  }
+
   if (request.method === "GET") {
     return NextResponse.next();
   }

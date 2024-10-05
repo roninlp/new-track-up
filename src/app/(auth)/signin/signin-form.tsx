@@ -27,6 +27,9 @@ export function SignInForm() {
           <span className="text-red-400">{state?.errors?.password}</span>
         )}
       </div>
+      {state.message && (
+        <p className="text-xl text-destructive">{state.message}</p>
+      )}
       <Button type="submit" className="w-full" disabled={isPending}>
         Login
       </Button>

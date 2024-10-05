@@ -16,15 +16,21 @@ export function SignUpForm() {
         <Label htmlFor="email">Email</Label>
         <Input
           id="email"
-          type="email"
           placeholder="m@example.com"
           required
+          name="email"
           value={state.data?.email}
         />
+        {state?.errors?.email && (
+          <span className="text-red-400">{state?.errors?.email}</span>
+        )}
       </div>
       <div className="grid gap-2">
         <Label htmlFor="password">Password</Label>
-        <Input id="password" type="password" />
+        <Input id="password" name="password" type="password" required />
+        {state?.errors?.password && (
+          <span className="text-red-400">{state?.errors?.password}</span>
+        )}
       </div>
       <Button type="submit" className="w-full" disabled={isPending}>
         Create an account

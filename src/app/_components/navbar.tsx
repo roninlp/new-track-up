@@ -24,8 +24,15 @@ export async function Navbar() {
         <div className="ml-auto flex items-center gap-2">
           {!user ? (
             <>
-              <Button variant="outline">Sign in</Button>
-              <Button>Sign Up</Button>
+              <Link
+                href="/signin"
+                className={buttonVariants({ variant: "outline" })}
+              >
+                Sign in
+              </Link>
+              <Link href="/signup" className={buttonVariants()}>
+                Sign up
+              </Link>
             </>
           ) : (
             <>
