@@ -6,10 +6,17 @@ await import("./src/env.js");
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  serverExternalPackages: ["@node-rs/argon2"],
-  experimental: {
-    reactCompiler: true,
+  images: {
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "images.unsplash.com",
+        port: "",
+        pathname: "/*",
+      },
+    ],
   },
+  serverExternalPackages: ["@node-rs/argon2"],
 };
 
 export default nextConfig;

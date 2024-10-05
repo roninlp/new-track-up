@@ -7,7 +7,7 @@ export function SignOut() {
   const [state, formAction] = useActionState(signOut, null);
   return (
     <form action={formAction}>
-      <Button type="submit" variant="destructive">
+      <Button type="submit" variant="outline">
         Sign out
       </Button>
     </form>
