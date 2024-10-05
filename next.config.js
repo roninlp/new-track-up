@@ -6,9 +6,9 @@ await import("./src/env.js");
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  serverExternalPackages: ["@node-rs/argon2"],
   experimental: {
     reactCompiler: true,
-    serverComponentsExternalPackages: ["@node-rs/argon2"],
   },
 };
 
